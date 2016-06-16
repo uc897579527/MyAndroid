@@ -12,34 +12,50 @@ import {
   View,
   Image,
   Alert,
+  ListView,
 } from 'react-native';
 
 var MOCKED_MOVIES_DATA = [
-  {title: '标题', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
+  {title: '标题1', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
+  {title: '标题2', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
+  {title: '标题3', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
 ];
+
+//var MOCKED_MOVIES_DATA = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
+
+
 
 class MyProject extends Component {
 
-constructor(props) {
+  constructor(props) {
     super(props);   //这一句不能省略，照抄即可
     this.state = {
-      movies: null,  //这里放你自己定义的state变量及初始值
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      loaded: false,
     };
+
   }
 
   componentDidMount() {
-    //this.fetchData();
+    this.fetchData();
   }
+
 
   render() {
 
-    if (!this.state.movies) {
+    if (!this.state.loaded) {
       return this.renderLoadingView();
     }
 
-    var movie=MOCKED_MOVIES_DATA[0];
-    return this.renderMovie(movie);
-
+    //var movie=MOCKED_MOVIES_DATA[0];
+    return (
+      <ListView
+      dataSource={this.state.dataSource}
+      renderRow={this.renderMovie}
+     />
+      )  
     
   }
 
@@ -56,58 +72,72 @@ constructor(props) {
   renderMovie(movie){
     return(
       <View style={styles.container}>
-      <Image source={{uri:movie.posters.thumbnail}} style={styles.thumbnail}/>
+        <Image
+          source={{uri: movie.posters.thumbnail}}
+          style={styles.thumbnail}
+        />
         <View style={styles.rightContainer}>
-         <Text>{movie.title}</Text>
-         <Text>{movie.year}</Text>
-        </View> 
-      </View> 
+          <Text style={styles.title}>{movie.title}</Text>
+          <Text style={styles.year}>{movie.year}</Text>
+        </View>
+      </View>
+     
       )
   }
-}
 
-  //fetchData() {
+   //getRows(): Array {
+    //var data = [];
+    //for (var i = 0; i < 100; i++) {
+      //var pressedText = "this is item :" +i;
+      //data.push(pressedText);
+    //}
+    //return data;
+  //}
+
+  fetchData() {
     //fetch(MOCKED_MOVIES_DATA)
       //.then((response) => response.json())
       //.then((responseData) => {
-        //this.setState({
-          //movies: responseData.movies,
-        //});
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(MOCKED_MOVIES_DATA),
+
+          loaded: true,
+
+        });
       //})
       //.done();
-  //}
+  }
+}  
 
 
 const styles = StyleSheet.create({
-  container: {
+   container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  item:{
-    backgroundColor:'#333333',
-  },
-  thumbnail:{
-    width:100,
-    height:100,
-  },
   rightContainer: {
-    backgroundColor:'red',
     flex: 1,
   },
-
-  welcome: {
+  title: {
     fontSize: 20,
+    marginBottom: 8,
     textAlign: 'center',
-    margin: 10,
   },
-  instructions: {
+  year: {
     textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
+  thumbnail: {
+    width: 100,
+    height: 80,
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#F5FCFF',
+  },
+
 });
 
 AppRegistry.registerComponent('MyProject', () => MyProject);
