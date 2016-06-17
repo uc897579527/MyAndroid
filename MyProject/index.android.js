@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+import {MyMovie,MyMovie2} from './src/movie.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -39,14 +40,19 @@ class MyProject extends Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    //this.fetchData();
   }
 
 
   render() {
 
     if (!this.state.loaded) {
-      return this.renderLoadingView();
+      return (
+        <View>
+        // <MyMovie></MyMovie>
+        <MyMovie2></MyMovie2>
+        </View>
+        );
     }
 
     //var movie=MOCKED_MOVIES_DATA[0];
@@ -55,8 +61,8 @@ class MyProject extends Component {
       dataSource={this.state.dataSource}
       renderRow={this.renderMovie}
      />
-      )  
-    
+      )
+
   }
 
   renderLoadingView() {
@@ -81,7 +87,7 @@ class MyProject extends Component {
           <Text style={styles.year}>{movie.year}</Text>
         </View>
       </View>
-     
+
       )
   }
 
@@ -107,7 +113,7 @@ class MyProject extends Component {
       //})
       //.done();
   }
-}  
+}
 
 
 const styles = StyleSheet.create({
