@@ -28,8 +28,8 @@ var MOCKED_MOVIES_DATA = [
 
 //var MOCKED_MOVIES_DATA = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 
-var MyProject = React.createClass({
-render: function() {
+class MyProject extends Component{
+render() {
   //component这里设置的是这个组件启动的时候显示的第一个子组件
   return (
     <Navigator
@@ -49,29 +49,37 @@ render: function() {
         }} >
     </Navigator>
   );
-},
-});
+}
+}
 /*--  首页页面组件 --*/
-var HomeScene = React.createClass({
-getInitialState:function () {
-  return {
+class HomeScene extends Component{
+// getInitialState() {
+//   return {
+//     id: 'AXIBA001',
+//     flag: null
+//   };
+// }
+constructor(props){
+  super(props);
+  this.state={
     id: 'AXIBA001',
     flag: null
-  };
-},
-render: function() {
+ }
+}
+
+render() {
   return (
     <View style={styles.home}>
-      <TouchableHighlight onPress={this.onPress}>
-        <Text>push me!{this.state.flag && ' I \'m ' + this.state.flag + ', i come from second page'}</Text>
+      <TouchableHighlight onPress={this.onPress1.bind(this)}>
+         <Text>push me!{this.state.flag && ' I \'m ' + this.state.flag + ', i come from second page'}</Text>
       </TouchableHighlight>
     </View>
   );
-},
-onPress: function() {
+}
+onPress1() {
   var _me = this;
-  //或者写成 const navigator = this.props.navigator;
-  const { navigator } = this.props;
+   const navigator = this.props.navigator;
+  //const { navigator } = this.props;
   if(navigator)
   {
       navigator.push({
@@ -88,21 +96,21 @@ onPress: function() {
        })
   }
 }
-});
+}
 /*--  push后的页面组件 --*/
-var SecondScene = React.createClass({
-render: function() {
+class SecondScene extends Component{
+render() {
   return (
     <View style={styles.home}>
-      <TouchableHighlight onPress={this.onPress}>
+      <TouchableHighlight onPress={this.onPress2.bind(this)}>
         <Text>push sucess!I get {this.props.id},i want back!</Text>
       </TouchableHighlight>
     </View>
   );
-},
-onPress: function() {
-  //或者写成 const navigator = this.props.navigator;
-  const { navigator } = this.props;
+}
+onPress2() {
+   const navigator = this.props.navigator;
+  //const { navigator } = this.props;
   if(this.props.getSomething) {
     var flag = 'Axiba002'
     this.props.getSomething(flag);
@@ -111,7 +119,7 @@ onPress: function() {
     navigator.pop();
   }
 }
-});
+};
 /*布局样式*/
 var styles = StyleSheet.create({
   container: {
