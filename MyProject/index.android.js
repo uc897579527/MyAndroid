@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-//import {MyMovie,MyMovie2} from './src/movie.js';
+import MyMovie from './src/movie.js';
 import {
   AppRegistry,
   StyleSheet,
@@ -20,11 +20,7 @@ import {
 
 } from 'react-native';
 
-var MOCKED_MOVIES_DATA = [
-  {title: '标题1', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
-  {title: '标题2', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
-  {title: '标题3', year: '2015', posters: {thumbnail: 'http://www.baidu.com/img/bd_logo1.png'}},
-];
+
 
 //var MOCKED_MOVIES_DATA = 'https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json';
 
@@ -84,7 +80,7 @@ onPress1() {
   {
       navigator.push({
           name: 'touch View',
-          component: SecondScene,
+          component: MyMovie,
           params: {
               id: this.state.id,
               getSomething:function(flag) {
